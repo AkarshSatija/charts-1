@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "meteor.name" . }}-{{ .Values.jobName }}-configmap"
+  namespace: {{ include "meteor.namespace" . }}
+data:
+{{- $files := .Files }}
+{{- range .Values.recipes }}
+{{ .key | indent 2 }}: |-
+{{ $files.Get .localPath | indent 4}}
+{{- end }}
